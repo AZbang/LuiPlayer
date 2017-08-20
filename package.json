@@ -18,6 +18,7 @@
   },
   "author": "azbang",
   "dependencies": {
+    "rangeslider-pure": "^0.4.1",
     "vue": "^2.4.2",
     "youtube-dl": "^1.11.1",
     "youtube-search": "^1.0.10",

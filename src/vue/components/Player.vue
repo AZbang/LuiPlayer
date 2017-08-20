@@ -29,7 +29,8 @@
           key: 'AIzaSyD3Wt5im8JEaFu_oRAlGmAYxA1fHXEo0lQ'
         },
         searchText: '',
-        srcVideo: ''
+        srcVideo: '',
+        player: null
       }
     },
     methods: {
@@ -59,6 +60,12 @@
     height: 50px;
     z-index: 1000;
   }
+  .search-track {
+    font-size: 2em;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+  }
   #search input {
       width: 100%;
       padding-left: 20px;
@@ -68,6 +75,10 @@
       border: none;
       color: #fff;
       font-family: Roboto;
+  }
+  #search input:focus {
+    outline-offset: 0;
+    outline: none;
   }
   #player video {
       width: 150vw;

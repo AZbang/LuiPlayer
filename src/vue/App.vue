@@ -17,6 +17,7 @@
 
 <style>
   body {
+    background: #000;
     overflow: hidden;
     margin: 0;
     padding: 0;

@@ -1,5 +1,6 @@
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\nbody {\n  overflow: hidden;\n  margin: 0;\n  padding: 0;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert("\nbody {\n  background: #000;\n  overflow: hidden;\n  margin: 0;\n  padding: 0;\n}\n")
+
 
 
 
@@ -40,7 +41,7 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["\nbody {\n  overflow: hidden;\n  margin: 0;\n  padding: 0;\n}\n"] = false
+    __vueify_insert__.cache["\nbody {\n  background: #000;\n  overflow: hidden;\n  margin: 0;\n  padding: 0;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
