@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="search" >
-    <input v-model="queryTrack | shortText" @keyup.enter="searchTrack">
+    <input v-model="queryTrack" @keyup.enter="searchTrack">
   </div>
 </template>
 
@@ -14,7 +14,7 @@
       }
     },
     filters: {
-      shortText(str, 30) {
+      shortText(str) {
         str.length = 30;
         return str;
       }
@@ -36,14 +36,15 @@
   }
 
   #search input {
-      width: 100%;
-      padding-left: 20px;
-      height: 100%;
-      background: transparent;
-      font-size: 1.2em;
-      border: none;
-      color: #fff;
-      font-family: Roboto;
+    text-overflow: ellipsis;
+    width: 90%;
+    padding-left: 20px;
+    height: 100%;
+    background: transparent;
+    font-size: 1.2em;
+    border: none;
+    color: #fff;
+    font-family: Roboto;
   }
   #search input:focus {
     outline-offset: 0;
