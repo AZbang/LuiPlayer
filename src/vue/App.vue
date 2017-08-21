@@ -16,10 +16,13 @@
 </script>
 
 <style>
-  body {
-    background: #000;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
+  #app {
+    height: 95vh;
+    width: 95vw;
+    left: 2.5%;
+    top: 2.5%;
+    box-shadow: 0 0 10px #434b60;
+    position: absolute;
+    border-radius: 10px;
   }
 </style>

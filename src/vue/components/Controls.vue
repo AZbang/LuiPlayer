@@ -4,36 +4,23 @@
     <input name="timeslider" type="range">
     <div class="controls-bar">
       <div class="row middle-xs">
+        <div class="col-xs-3">
+          <div class="box button"><i class="material-icons" @click="downloadTrack">{{!isDownloadedTrack ? "playlist_add" : "playlist_add_check"}}</i></div>
+        </div>
         <div class="col-xs-2">
-          <div class="box button"><i class="fa fa-download" aria-hidden="true"></i></div>
+          <div class="box button"><i class="material-icons">skip_previous</i></div>
         </div>
-        <div class="col-xs-2"></div>
-        <div class="col-xs-1">
-          <div class="box button"><i class="fa fa-backward" aria-hidden="true"></i></div>
-        </div>
-        <div class="col-xs-1">
+        <div class="col-xs-2">
           <div class="box button">
-            <i class="fa"
-               :class="{'fa-play': !isPlayTrack, 'fa-pause': isPlayTrack}"
-               @click="isPlayTrack ? stopTrack() : playTrack()"
-               aria-hidden="true"
-            ></i>
+            <i class="material-icons" @click="isPlayTrack ? stopTrack() : playTrack()">{{isPlayTrack ? "pause" : "play_arrow"}}</i>
           </div>
         </div>
-        <div class="col-xs-1">
-          <div class="box button"><i class="fa fa-forward" aria-hidden="true"></i></div>
+        <div class="col-xs-2">
+          <div class="box button"><i class="material-icons">skip_next</i></div>
         </div>
-        <div class="col-xs-2"></div>
         <div class="col-xs-3">
-          <div class="volumeslider-wrap">
-            <label for="volumeslider">
-              <i class="fa volumeslider-icon"
-                 :class="{'fa-volume-off': !isSoundTrackOn, 'fa-volume-up': isSoundTrackOn}"
-                 @click="isSoundTrackOn ? offSoundTrack() : onSoundTrack()"
-                 aria-hidden="true"
-              ></i>
-            </label>
-            <input name="volumeslider" type="range">
+          <div class="box button">
+            <i class="material-icons" @click="isSoundTrackOn ? offSoundTrack() : onSoundTrack()">{{isSoundTrackOn ? "volume_up" : "volume_mute"}}</i>
           </div>
         </div>
       </div>
@@ -53,6 +40,7 @@
         totalTrackTime: null,
         timeTrackInPer: 10,
         isPlayTrack: true,
+        isDownloadedTrack: false,
         isSoundTrackOn: true
       }
     },
@@ -96,6 +84,10 @@
       onSoundTrack() {
         this.isSoundTrackOn = true;
         this.player.volume = 1;
+      },
+      downloadTrack() {
+        this.isDownloadedTrack = true;
+        this.$emit('downloadTrack');
       }
     },
     mounted() {
@@ -111,17 +103,17 @@
         onSlide: (v) => this.setTrackTime(v)
       });
 
-      this.volumeslider = document.querySelector('input[name="volumeslider"]');
-      rangeSlider.create(this.volumeslider, {
-        rangeClass: 'volumeslider',
-        fillClass: 'volumeslider-fill',
-        handleClass: 'volumeslider-handle',
-        min: 0,
-        max: 1,
-        step: 0.1,
-        value: .7,
-        onSlide: (v) => this.setTrackVolume(v)
-      });
+      // this.volumeslider = document.querySelector('input[name="volumeslider"]');
+      // rangeSlider.create(this.volumeslider, {
+      //   rangeClass: 'volumeslider',
+      //   fillClass: 'volumeslider-fill',
+      //   handleClass: 'volumeslider-handle',
+      //   min: 0,
+      //   max: 1,
+      //   step: 0.1,
+      //   value: .7,
+      //   onSlide: (v) => this.setTrackVolume(v)
+      // });
 
       setInterval(() => this.updateTime(), 1000);
     }
@@ -134,14 +126,13 @@
     bottom: 0;
     width: 100%;
     height: 20%;
-    background: rgba(255, 255, 255, .3);
+    background: #434b60;
+    border-radius: 0 0 10px 10px;
   }
   .timeslider {
     width: 100%;
     height: 5%;
-    transition: all .5s;
-    background: #FFC107;
-    box-shadow: 0 0 10px #FFC107;
+    background: #515970;
     transition: all .5s;
     cursor: pointer;
   }
@@ -152,12 +143,11 @@
     position: relative;
     transition: all .5s;
     height: 100%;
-    background: #FF5722;
-    box-shadow: 0 0 10px #FF5722;
+    background: #2196F3;
   }
   .timeslider-handle, .volumeslider-handle {
     width: 20px;
-    height: 100%;
+    height: 10px;
     position: absolute;
   }
   .volumeslider-wrap {
@@ -173,7 +163,7 @@
     height: 10px;
   }
   .volumeslider-icon {
-    font-size: 2em;
+    font-size: 3em;
     color: #FFC107;
     cursor: pointer;
   }
@@ -203,16 +193,12 @@
     height: 100%;
   }
   .button {
-    font-size: 2.4em;
-    color: #FFC107;
+    color: #ffffff;
     text-align: center;
   }
   .button i {
+    font-size: 2em;
     cursor: pointer;
     transition: all .5s;
-  }
-  .button i:hover {
-    color: #FF5722;
-    text-shadow: 0 0 10px #FF5722;
   }
 </style>

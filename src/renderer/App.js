@@ -1,5 +1,8 @@
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\nbody {\n  background: #000;\n  overflow: hidden;\n  margin: 0;\n  padding: 0;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert("\n#app {\n  height: 95vh;\n  width: 95vw;\n  left: 2.5%;\n  top: 2.5%;\n  box-shadow: 0 0 10px #434b60;\n  position: absolute;\n  border-radius: 10px;\n}\n")
+
+
+
 
 
 
@@ -41,12 +44,12 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["\nbody {\n  background: #000;\n  overflow: hidden;\n  margin: 0;\n  padding: 0;\n}\n"] = false
+    __vueify_insert__.cache["\n#app {\n  height: 95vh;\n  width: 95vw;\n  left: 2.5%;\n  top: 2.5%;\n  box-shadow: 0 0 10px #434b60;\n  position: absolute;\n  border-radius: 10px;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-a4ebf15a", module.exports)
+    hotAPI.createRecord("_v-78aaed27", module.exports)
   } else {
-    hotAPI.update("_v-a4ebf15a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-78aaed27", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
