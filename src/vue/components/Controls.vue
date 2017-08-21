@@ -5,7 +5,7 @@
     <div class="controls-bar">
       <div class="row middle-xs">
         <div class="col-xs-3">
-          <div class="box button"><i class="material-icons" @click="downloadTrack">{{!isDownloadedTrack ? "playlist_add" : "playlist_add_check"}}</i></div>
+          <div class="box button"><i class="material-icons" @click="!isDownloadedTrack && downloadTrack()">{{!isDownloadedTrack ? "playlist_add" : "playlist_add_check"}}</i></div>
         </div>
         <div class="col-xs-2">
           <div class="box button"><i class="material-icons">skip_previous</i></div>
@@ -38,7 +38,7 @@
       return {
         currentTrackTime: null,
         totalTrackTime: null,
-        timeTrackInPer: 10,
+        timeTrackInPer: 0,
         isPlayTrack: true,
         isDownloadedTrack: false,
         isSoundTrackOn: true
@@ -100,7 +100,7 @@
         max: 100,
         step: .1,
         value: 0,
-        onSlide: (v) => this.setTrackTime(v)
+        onSlide: this.setTrackTime.bind(this)
       });
 
       // this.volumeslider = document.querySelector('input[name="volumeslider"]');

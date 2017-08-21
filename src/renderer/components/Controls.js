@@ -213,7 +213,7 @@ module.exports = {
     return {
       currentTrackTime: null,
       totalTrackTime: null,
-      timeTrackInPer: 10,
+      timeTrackInPer: 0,
       isPlayTrack: true,
       isDownloadedTrack: false,
       isSoundTrackOn: true
@@ -275,7 +275,7 @@ module.exports = {
       max: 100,
       step: .1,
       value: 0,
-      onSlide: (v) => this.setTrackTime(v)
+      onSlide: this.setTrackTime.bind(this)
     });
 
     // this.volumeslider = document.querySelector('input[name="volumeslider"]');
@@ -295,7 +295,7 @@ module.exports = {
 }
 
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"controls\">\n  <div class=\"time-stamp\" v-show=\"false\">{{currentTrackTime | formatTime}} / {{totalTrackTime | formatTime}}</div>\n  <input name=\"timeslider\" type=\"range\">\n  <div class=\"controls-bar\">\n    <div class=\"row middle-xs\">\n      <div class=\"col-xs-3\">\n        <div class=\"box button\"><i class=\"material-icons\" @click=\"downloadTrack\">{{!isDownloadedTrack ? \"playlist_add\" : \"playlist_add_check\"}}</i></div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\"><i class=\"material-icons\">skip_previous</i></div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\">\n          <i class=\"material-icons\" @click=\"isPlayTrack ? stopTrack() : playTrack()\">{{isPlayTrack ? \"pause\" : \"play_arrow\"}}</i>\n        </div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\"><i class=\"material-icons\">skip_next</i></div>\n      </div>\n      <div class=\"col-xs-3\">\n        <div class=\"box button\">\n          <i class=\"material-icons\" @click=\"isSoundTrackOn ? offSoundTrack() : onSoundTrack()\">{{isSoundTrackOn ? \"volume_up\" : \"volume_mute\"}}</i>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"controls\">\n  <div class=\"time-stamp\" v-show=\"false\">{{currentTrackTime | formatTime}} / {{totalTrackTime | formatTime}}</div>\n  <input name=\"timeslider\" type=\"range\">\n  <div class=\"controls-bar\">\n    <div class=\"row middle-xs\">\n      <div class=\"col-xs-3\">\n        <div class=\"box button\"><i class=\"material-icons\" @click=\"!isDownloadedTrack && downloadTrack()\">{{!isDownloadedTrack ? \"playlist_add\" : \"playlist_add_check\"}}</i></div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\"><i class=\"material-icons\">skip_previous</i></div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\">\n          <i class=\"material-icons\" @click=\"isPlayTrack ? stopTrack() : playTrack()\">{{isPlayTrack ? \"pause\" : \"play_arrow\"}}</i>\n        </div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\"><i class=\"material-icons\">skip_next</i></div>\n      </div>\n      <div class=\"col-xs-3\">\n        <div class=\"box button\">\n          <i class=\"material-icons\" @click=\"isSoundTrackOn ? offSoundTrack() : onSoundTrack()\">{{isSoundTrackOn ? \"volume_up\" : \"volume_mute\"}}</i>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

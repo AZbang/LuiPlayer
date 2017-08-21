@@ -1,12 +1,10 @@
 <template lang="html">
   <div>
-    <div id="search">
-      <input v-model="searchText" @keyup.enter="search">
-    </div>
-    <div id="player">
+    <div id="player" class="app-drag">
       <video v-bind:src="srcVideo" autoplay></video>
     </div>
-    <controls @downloadTrack="downloadTrack" :player="player"></controls>
+    <search @searchTrack="searchTrack" :queryTrack="searchText" class="no-app-drag"></search>
+    <controls @downloadTrack="downloadTrack" :player="player" class="no-app-drag"></controls>
   </div>
 </template>
 
@@ -16,11 +14,13 @@
   const fs = require('fs');
 
   const Controls = require('./Controls');
+  const Search = require('./Search');
 
   module.exports = {
     name: 'player',
     components: {
-      Controls
+      Controls,
+      Search
     },
     data() {
       return {
@@ -35,10 +35,10 @@
       }
     },
     methods: {
-      search() {
-        if(this.searchText === '') return;
+      searchTrack(req) {
+        if(req === '') return;
 
-        YTsearch(this.searchText, this.youtubeSearch, (err, results) => {
+        YTsearch(req, this.youtubeSearch, (err, results) => {
           if(err) return console.log(err);
           this.setVideo(results[0].id);
         });
@@ -49,12 +49,11 @@
           this.trackInfo = info;
           this.searchText = info.title;
           this.srcVideo = info.url;
-          cb();
+          cb && cb();
         });
       },
       downloadTrack() {
-        console.log(this.savePath + this.trackInfo.title + '.mp3');
-        this.track.pipe(fs.createWriteStream(this.savePath + this.trackInfo.title + '.mp3'));
+        this.track.pipe(fs.createWriteStream(this.savePath + this.trackInfo.title + '.mp4'));
       }
     },
     mounted() {
@@ -67,32 +66,6 @@
 </script>
 
 <style lang="css">
-  #search {
-    position: absolute;
-    width: 100%;
-    height: 50px;
-    z-index: 1000;
-  }
-  .search-track {
-    font-size: 2em;
-    text-align: center;
-    line-height: 20px;
-    color: #fff;
-  }
-  #search input {
-      width: 100%;
-      padding-left: 20px;
-      height: 100%;
-      background: transparent;
-      font-size: 1.5em;
-      border: none;
-      color: #fff;
-      font-family: Roboto;
-  }
-  #search input:focus {
-    outline-offset: 0;
-    outline: none;
-  }
   #player {
     position: absolute;
     top: 0;
