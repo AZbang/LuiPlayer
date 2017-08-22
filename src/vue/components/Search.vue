@@ -8,11 +8,6 @@
   module.exports = {
     name: 'search',
     props: ['queryTrack'],
-    data() {
-      return {
-        queryTrack: ''
-      }
-    },
     filters: {
       shortText(str) {
         str.length = 30;

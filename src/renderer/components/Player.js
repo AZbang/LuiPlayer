@@ -91,9 +91,14 @@ var __vueify_style__ = __vueify_insert__.insert("\n  #player {\n    position: ab
 
 
 
+
+
+
+
 const YTsearch = require('youtube-search');
 const youtubedl = require('youtube-dl');
 const fs = require('fs');
+const mkdirp = require('mkdirp');
 
 const Controls = require('./Controls');
 const Search = require('./Search');
@@ -112,7 +117,7 @@ module.exports = {
       },
       searchText: '',
       srcVideo: '',
-      savePath: '../saved/',
+      savePath: '../saved',
       player: null
     }
   },
@@ -121,7 +126,7 @@ module.exports = {
       if(req === '') return;
 
       YTsearch(req, this.youtubeSearch, (err, results) => {
-        if(err) return console.log(err);
+        if(err) throw err;
         this.setVideo(results[0].id);
       });
     },
@@ -135,7 +140,10 @@ module.exports = {
       });
     },
     downloadTrack() {
-      this.track.pipe(fs.createWriteStream(this.savePath + this.trackInfo.title + '.mp4'));
+      mkdirp(this.savePath, (err) => {
+        if(err) throw err;
+        this.track.pipe(fs.createWriteStream(this.savePath + '/' + this.trackInfo.title + '.mp4'));
+      });
     }
   },
   mounted() {

@@ -12,7 +12,8 @@ app.on('ready', () => {
   mainWindow = new BrowserWindow({frame: false, transparent: true, width: 360, height: 420, minWidth: 360, minHeight: 420});
 
   mainWindow.loadURL('file://' + __dirname + '/src/index.html');
-  // mainWindow.setMenu(null);
+  mainWindow.setMenu(null);
+  mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;

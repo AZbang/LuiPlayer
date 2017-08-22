@@ -1,10 +1,5 @@
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("\n#search {\n  position: absolute;\n  width: 100%;\n  height: 50px;\n  z-index: 1000;\n}\n\n#search input {\n  text-overflow: ellipsis;\n  width: 100%;\n  padding-left: 20px;\n  height: 100%;\n  background: transparent;\n  font-size: 1.2em;\n  border: none;\n  color: #fff;\n  font-family: Roboto;\n}\n#search input:focus {\n  outline-offset: 0;\n  outline: none;\n}\n")
-
-
-
-
-
+var __vueify_style__ = __vueify_insert__.insert("\n#search {\n  position: absolute;\n  width: 100%;\n  height: 50px;\n  z-index: 1000;\n}\n\n#search input {\n  text-overflow: ellipsis;\n  width: 90%;\n  padding-left: 20px;\n  height: 100%;\n  background: transparent;\n  font-size: 1.2em;\n  border: none;\n  color: #fff;\n  font-family: Roboto;\n}\n#search input:focus {\n  outline-offset: 0;\n  outline: none;\n}\n")
 
 
 
@@ -56,11 +51,6 @@ var __vueify_style__ = __vueify_insert__.insert("\n#search {\n  position: absolu
 module.exports = {
   name: 'search',
   props: ['queryTrack'],
-  data() {
-    return {
-      queryTrack: ''
-    }
-  },
   filters: {
     shortText(str) {
       str.length = 30;
@@ -81,7 +71,7 @@ if (module.hot) {(function () {  module.hot.accept()
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["\n#search {\n  position: absolute;\n  width: 100%;\n  height: 50px;\n  z-index: 1000;\n}\n\n#search input {\n  text-overflow: ellipsis;\n  width: 100%;\n  padding-left: 20px;\n  height: 100%;\n  background: transparent;\n  font-size: 1.2em;\n  border: none;\n  color: #fff;\n  font-family: Roboto;\n}\n#search input:focus {\n  outline-offset: 0;\n  outline: none;\n}\n"] = false
+    __vueify_insert__.cache["\n#search {\n  position: absolute;\n  width: 100%;\n  height: 50px;\n  z-index: 1000;\n}\n\n#search input {\n  text-overflow: ellipsis;\n  width: 90%;\n  padding-left: 20px;\n  height: 100%;\n  background: transparent;\n  font-size: 1.2em;\n  border: none;\n  color: #fff;\n  font-family: Roboto;\n}\n#search input:focus {\n  outline-offset: 0;\n  outline: none;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {

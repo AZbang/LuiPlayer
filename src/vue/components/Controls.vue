@@ -12,7 +12,8 @@
         </div>
         <div class="col-xs-2">
           <div class="box button">
-            <i class="material-icons" @click="isPlayTrack ? stopTrack() : playTrack()">{{isPlayTrack ? "pause" : "play_arrow"}}</i>
+            <!-- ugly logic -->
+            <i class="material-icons" @click="isRestartTrackBtnShow ? restartTrack() : isPlayTrack ? stopTrack() : playTrack()">{{isRestartTrackBtnShow ? "replay" : isPlayTrack ? "pause" : "play_arrow"}}</i>
           </div>
         </div>
         <div class="col-xs-2">
@@ -33,13 +34,13 @@
 
   module.exports = {
     name: 'controls',
-    props: ['player'],
     data() {
       return {
         currentTrackTime: null,
         totalTrackTime: null,
         timeTrackInPer: 0,
         isPlayTrack: true,
+        isRestartTrackBtnShow: false,
         isDownloadedTrack: false,
         isSoundTrackOn: true
       }
@@ -58,7 +59,6 @@
     methods:  {
       setTrackTime(value) {
         this.player.currentTime = value*(this.totalTrackTime/100);
-        this.updateTime();
       },
       setTrackVolume(value) {
         this.player.volume = value;
@@ -86,11 +86,18 @@
         this.player.volume = 1;
       },
       downloadTrack() {
-        this.isDownloadedTrack = true;
+        // this.isDownloadedTrack = true;
         this.$emit('downloadTrack');
+      },
+      restartTrack() {
+        this.isRestartTrackBtnShow = false;
+        this.setTrackTime(0);
+        this.playTrack();
       }
     },
     mounted() {
+      this.player = document.querySelector('video');
+
       this.timeslider = document.querySelector('input[name="timeslider"]');
       rangeSlider.create(this.timeslider, {
         rangeClass: 'timeslider',
@@ -98,7 +105,7 @@
         handleClass: 'timeslider-handle',
         min: 0,
         max: 100,
-        step: .1,
+        step: 1,
         value: 0,
         onSlide: this.setTrackTime.bind(this)
       });
@@ -115,7 +122,9 @@
       //   onSlide: (v) => this.setTrackVolume(v)
       // });
 
-      setInterval(() => this.updateTime(), 1000);
+      this.player.ontimeupdate = () => this.updateTime();
+      this.player.onended = () => this.isRestartTrackBtnShow = true;
+      this.player.onplay = () => this.isRestartTrackBtnShow = false;
     }
   }
 </script>
