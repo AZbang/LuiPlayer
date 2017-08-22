@@ -17,10 +17,12 @@
   },
   "author": "azbang",
   "dependencies": {
+    "gulp-vueify": "0.0.3",
     "mkdirp": "^0.5.1",
     "rangeslider-pure": "^0.4.1",
+    "siriwavejs": "^2.0.2",
     "vue": "^2.4.2",
-    "gulp-vueify": "0.0.3",
+    "web-audio-analyser": "^2.0.1",
     "youtube-dl": "^1.11.1",
     "youtube-search": "^1.0.10"
   }

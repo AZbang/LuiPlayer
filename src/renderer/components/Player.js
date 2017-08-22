@@ -95,6 +95,9 @@ var __vueify_style__ = __vueify_insert__.insert("\n  #player {\n    position: ab
 
 
 
+
+
+
 const YTsearch = require('youtube-search');
 const youtubedl = require('youtube-dl');
 const fs = require('fs');
@@ -102,12 +105,14 @@ const mkdirp = require('mkdirp');
 
 const Controls = require('./Controls');
 const Search = require('./Search');
+const Graphics = require('./Graphics');
 
 module.exports = {
   name: 'player',
   components: {
     Controls,
-    Search
+    Search,
+    Graphics
   },
   data() {
     return {
@@ -155,7 +160,7 @@ module.exports = {
 }
 
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n  <div id=\"player\" class=\"app-drag\">\n    <video v-bind:src=\"srcVideo\" autoplay></video>\n  </div>\n  <search @searchTrack=\"searchTrack\" :queryTrack=\"searchText\" class=\"no-app-drag\"></search>\n  <controls @downloadTrack=\"downloadTrack\" :player=\"player\" class=\"no-app-drag\"></controls>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n  <div id=\"player\" class=\"app-drag\">\n    <video v-bind:src=\"srcVideo\" autoplay></video>\n  </div>\n  <graphics></graphics>\n  <search @searchTrack=\"searchTrack\" :queryTrack=\"searchText\" class=\"no-app-drag\"></search>\n  <controls @downloadTrack=\"downloadTrack\" :player=\"player\" class=\"no-app-drag\"></controls>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

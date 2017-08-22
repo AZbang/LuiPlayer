@@ -3,6 +3,7 @@
     <div id="player" class="app-drag">
       <video v-bind:src="srcVideo" autoplay></video>
     </div>
+    <graphics></graphics>
     <search @searchTrack="searchTrack" :queryTrack="searchText" class="no-app-drag"></search>
     <controls @downloadTrack="downloadTrack" :player="player" class="no-app-drag"></controls>
   </div>
@@ -16,12 +17,14 @@
 
   const Controls = require('./Controls');
   const Search = require('./Search');
+  const Graphics = require('./Graphics');
 
   module.exports = {
     name: 'player',
     components: {
       Controls,
-      Search
+      Search,
+      Graphics
     },
     data() {
       return {
