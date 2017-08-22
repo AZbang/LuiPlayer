@@ -213,7 +213,6 @@ var __vueify_style__ = __vueify_insert__.insert("\n#controls {\n  position: abso
 
 
 
-
 const rangeSlider = require('rangeslider-pure');
 
 module.exports = {
@@ -309,7 +308,6 @@ module.exports = {
     this.player.ontimeupdate = () => this.updateTime();
     this.player.onended = () => this.isRestartTrackBtnShow = true;
     this.player.onplay = () => this.isRestartTrackBtnShow = false;
-
   }
 }
 
