@@ -3,9 +3,18 @@
     <div id="player" class="app-drag">
       <video v-bind:src="srcVideo" autoplay></video>
     </div>
-    <graphics></graphics>
+    <transition name="hide">
+      <graphics v-show="!isLoading"></graphics>
+    </transition>
+
     <search @searchTrack="searchTrack" :queryTrack="searchText" class="no-app-drag"></search>
     <controls @downloadTrack="downloadTrack" :player="player" class="no-app-drag"></controls>
+
+    <transition name="hide">
+      <div v-show="isLoading" class="loader-wrap">
+        <div class="signal"></div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -34,6 +43,7 @@
         },
         searchText: '',
         srcVideo: '',
+        isLoading: true,
         savePath: '../saved',
         player: null
       }
@@ -42,6 +52,7 @@
       searchTrack(req) {
         if(req === '') return;
 
+        this.isLoading = true;
         YTsearch(req, this.youtubeSearch, (err, results) => {
           if(err) throw err;
           this.setVideo(results[0].id);
@@ -53,6 +64,7 @@
           this.trackInfo = info;
           this.searchText = info.title;
           this.srcVideo = info.url;
+          this.isLoading = false;
           cb && cb();
         });
       },
@@ -94,5 +106,39 @@
     filter: blur(30px);
     position: absolute;
     border-radius: 10px;
-}
+  }
+
+  .loader-wrap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .signal {
+    border: 5px solid #515970;
+    border-radius: 30px;
+    height: 30px;
+    left: 50%;
+    margin: -15px 0 0 -15px;
+    opacity: 0;
+    position: absolute;
+    top: 45%;
+    width: 30px;
+
+    animation: pulsate 1s ease-out;
+    animation-iteration-count: infinite;
+  }
+  @keyframes pulsate {
+    0% {
+      transform: scale(.1);
+      opacity: 0.0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.2);
+      opacity: 0;
+    }
+  }
 </style>

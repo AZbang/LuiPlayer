@@ -7,13 +7,7 @@
 <script>
   module.exports = {
     name: 'search',
-    props: ['queryTrack'],
-    filters: {
-      shortText(str) {
-        str.length = 30;
-        return str;
-      }
-    },
+    props: ['queryTrack', 'isLoading'],
     methods: {
       searchTrack() {
         this.$emit('searchTrack', this.queryTrack);

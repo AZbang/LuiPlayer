@@ -12,17 +12,17 @@
       calcAmplitude(waves) {
         if(waves[0] < -Infinity || waves[0] > Infinity) return;
 
-        this.siriWave.speed = waves[0]-5 < 0 ? .12 : waves[0]-5;
-        this.siriWave.amplitude = waves[0];
+        this.siriWave.amplitude = waves[0]*3 < 0 ? .3 : waves[0]*3;
       }
     },
     mounted() {
       let video = document.querySelector('video');
       let graph = document.getElementById('graphics');
+      let app = document.getElementById('app');
       this.siriWave = new SiriWave({
       	container: graph,
-      	width: graph.offsetWidth,
-      	height: graph.innerHeight,
+      	width: app.offsetWidth,
+      	height: app.offsetHeight,
         speed: 0.12,
         style: 'default',
 				amplitude: .3,

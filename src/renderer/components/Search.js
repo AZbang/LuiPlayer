@@ -42,21 +42,9 @@ var __vueify_style__ = __vueify_insert__.insert("\n#search {\n  position: absolu
 
 
 
-
-
-
-
-
-
 module.exports = {
   name: 'search',
-  props: ['queryTrack'],
-  filters: {
-    shortText(str) {
-      str.length = 30;
-      return str;
-    }
-  },
+  props: ['queryTrack', 'isLoading'],
   methods: {
     searchTrack() {
       this.$emit('searchTrack', this.queryTrack);

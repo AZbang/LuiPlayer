@@ -1,3 +1,5 @@
+<!-- Big Component. In the future, it will be divided into subcomponents -->
+
 <template lang="html">
   <div id="controls">
     <transition name="fade">
@@ -14,15 +16,14 @@
     <div class="controls-bar">
       <div class="row middle-xs">
         <div class="col-xs-3">
-          <div class="box button"><i class="material-icons" @click="!isDownloadedTrack && downloadTrack()">{{!isDownloadedTrack ? "playlist_add" : "playlist_add_check"}}</i></div>
+          <div class="box button"><i class="material-icons" @click="downloadTrack">file_download</i></div>
         </div>
         <div class="col-xs-2">
           <div class="box button"><i class="material-icons">skip_previous</i></div>
         </div>
         <div class="col-xs-2">
           <div class="box button">
-            <!-- ugly logic -->
-            <i class="material-icons" @click="isRestartTrackBtnShow ? restartTrack() : isPlayTrack ? stopTrack() : playTrack()">{{isRestartTrackBtnShow ? "replay" : isPlayTrack ? "pause" : "play_arrow"}}</i>
+            <i class="material-icons" @click="clickBtnPlay">{{getIconBtnPlay}}</i>
           </div>
         </div>
         <div class="col-xs-2">
@@ -94,14 +95,25 @@
         this.isVolumesliderShow = true;
         setTimeout(() => this.isVolumesliderShow = false, 5000);
       },
+      clickBtnPlay() {
+        if(this.isRestartTrackBtnShow) this.restartTrack()
+        else if(this.isPlayTrack) this.stopTrack()
+        else this.playTrack();
+      },
       downloadTrack() {
-        // this.isDownloadedTrack = true;
         this.$emit('downloadTrack');
       },
       restartTrack() {
         this.isRestartTrackBtnShow = false;
         this.setTrackTime(0);
         this.playTrack();
+      }
+    },
+    computed: {
+      getIconBtnPlay() {
+        if(this.isRestartTrackBtnShow) return "replay"
+        else if(this.isPlayTrack) return "pause"
+        else return "play_arrow";
       }
     },
     mounted() {
@@ -141,14 +153,6 @@
 </script>
 
 <style lang="css">
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0
-  }
-
-
   #controls {
     position: absolute;
     bottom: 0;
