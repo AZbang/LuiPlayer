@@ -1,6 +1,15 @@
 <template lang="html">
   <div id="controls">
-    <div class="time-stamp" v-show="false">{{currentTrackTime | formatTime}} / {{totalTrackTime | formatTime}}</div>
+    <transition name="fade">
+      <div class="time-stamp" v-show="isTimestampShow">{{currentTrackTime | formatTime}} / {{totalTrackTime | formatTime}}</div>
+    </transition>
+
+    <transition name="fade">
+      <div class="volume-wrap no-app-drag" v-show="isVolumesliderShow">
+        <input name="volumeslider" type="range">
+      </div>
+    </transition>
+
     <input name="timeslider" type="range">
     <div class="controls-bar">
       <div class="row middle-xs">
@@ -21,7 +30,7 @@
         </div>
         <div class="col-xs-3">
           <div class="box button">
-            <i class="material-icons" @click="isSoundTrackOn ? offSoundTrack() : onSoundTrack()">{{isSoundTrackOn ? "volume_up" : "volume_mute"}}</i>
+            <i class="material-icons" @click="clickBtnSound">volume_up</i>
           </div>
         </div>
       </div>
@@ -36,13 +45,14 @@
     name: 'controls',
     data() {
       return {
-        currentTrackTime: null,
-        totalTrackTime: null,
+        currentTrackTime: 0,
+        totalTrackTime: 0,
         timeTrackInPer: 0,
         isPlayTrack: true,
         isRestartTrackBtnShow: false,
         isDownloadedTrack: false,
-        isSoundTrackOn: true
+        isTimestampShow: false,
+        isVolumesliderShow: false
       }
     },
     filters: {
@@ -58,10 +68,12 @@
     },
     methods:  {
       setTrackTime(value) {
+        this.isVolumesliderShow = false;
         this.player.currentTime = value*(this.totalTrackTime/100);
+        this.currentTrackTime = this.player.currentTime;
       },
       setTrackVolume(value) {
-        this.player.volume = value;
+        this.player.volume = value/100;
       },
       updateTime() {
         this.currentTrackTime = this.player.currentTime;
@@ -77,13 +89,10 @@
         this.isPlayTrack = true;
         this.player.play();
       },
-      offSoundTrack() {
-        this.isSoundTrackOn = false;
-        this.player.volume = 0;
-      },
-      onSoundTrack() {
-        this.isSoundTrackOn = true;
-        this.player.volume = 1;
+      clickBtnSound() {
+        this.isTimestampShow = false;
+        this.isVolumesliderShow = true;
+        setTimeout(() => this.isVolumesliderShow = false, 5000);
       },
       downloadTrack() {
         // this.isDownloadedTrack = true;
@@ -107,20 +116,22 @@
         max: 100,
         step: 1,
         value: 0,
-        onSlide: this.setTrackTime.bind(this)
+        onSlide: (v) => this.setTrackTime(v),
+        onSlideStart: () => this.isTimestampShow = true,
+        onSlideEnd: () => this.isTimestampShow = false
       });
 
-      // this.volumeslider = document.querySelector('input[name="volumeslider"]');
-      // rangeSlider.create(this.volumeslider, {
-      //   rangeClass: 'volumeslider',
-      //   fillClass: 'volumeslider-fill',
-      //   handleClass: 'volumeslider-handle',
-      //   min: 0,
-      //   max: 1,
-      //   step: 0.1,
-      //   value: .7,
-      //   onSlide: (v) => this.setTrackVolume(v)
-      // });
+      this.volumeslider = document.querySelector('input[name="volumeslider"]');
+      rangeSlider.create(this.volumeslider, {
+        rangeClass: 'volumeslider',
+        fillClass: 'volumeslider-fill',
+        handleClass: 'volumeslider-handle',
+        min: 0,
+        max: 100,
+        step: 1,
+        value: 100,
+        onSlide: (v) => this.setTrackVolume(v)
+      });
 
       this.player.ontimeupdate = () => this.updateTime();
       this.player.onended = () => this.isRestartTrackBtnShow = true;
@@ -130,6 +141,14 @@
 </script>
 
 <style lang="css">
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0
+  }
+
+
   #controls {
     position: absolute;
     bottom: 0;
@@ -140,9 +159,9 @@
   }
   .timeslider {
     width: 100%;
+    position: relative;
     height: 5%;
     background: #515970;
-    transition: all .5s;
     cursor: pointer;
   }
   .timeslider:hover {
@@ -150,37 +169,47 @@
   }
   .timeslider-fill, .volumeslider-fill {
     position: relative;
-    transition: all .5s;
     height: 100%;
     background: #2196F3;
   }
   .timeslider-handle, .volumeslider-handle {
-    width: 20px;
-    height: 10px;
+    width: 10px;
+    height: 100%;
+    background: #2196F3;
     position: absolute;
   }
-  .volumeslider-wrap {
-    position: relative;
+  .volume-wrap {
+    position: absolute;
+    left: 50%;
+    width: 50%;
+    height: 30px;
+    margin-left: -25%;
+    bottom: 115%;
+    color: #fff;
+    background: #434b60;
+    text-align: center;
+    line-height: 30px;
+    padding-top: 0;
+    font-size: 15px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #515970;
+    font-family: Roboto;
   }
   .volumeslider {
     position: absolute;
-    top: 11px;
-    background: #FFC107;
+    background: #515970;
     cursor: pointer;
-    left: 42px;
-    width: 65%;
-    height: 10px;
+    width: 85%;
+    height: 5px;
+    top: 12px;
+    left: 12px;
   }
-  .volumeslider-icon {
-    font-size: 3em;
-    color: #FFC107;
-    cursor: pointer;
-  }
+
   .time-stamp {
     position: absolute;
     top: -50px;
     color: #fff;
-    background: #FFC107;
+    background: #434b60;
     text-align: center;
     width: 110px;
     line-height: 30px;
@@ -190,7 +219,7 @@
     height: 30px;
     font-size: 15px;
     border-radius: 20px;
-    box-shadow: 0 0 10px #FFC107;
+    box-shadow: 0 0 10px #515970;
     font-family: Roboto;
   }
 

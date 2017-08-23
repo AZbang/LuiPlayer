@@ -66,7 +66,7 @@ var __vueify_style__ = __vueify_insert__.insert("\n#graphics {\n  position: abso
       calcAmplitude(waves) {
         if(waves[0] < -Infinity || waves[0] > Infinity) return;
 
-        this.siriWave.speed = waves[0] < 0 ? .12 : waves[0];
+        this.siriWave.speed = waves[0]-5 < 0 ? .12 : waves[0]-5;
         this.siriWave.amplitude = waves[0];
       }
     },
