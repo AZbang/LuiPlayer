@@ -13,7 +13,6 @@ app.on('ready', () => {
 
   mainWindow.loadURL('file://' + __dirname + '/src/index.html');
   mainWindow.setMenu(null);
-  mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;

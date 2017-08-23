@@ -57,8 +57,9 @@ var __vueify_style__ = __vueify_insert__.insert("\n#graphics {\n  position: abso
 
 
 
+
+
   const siriWave = require('siriwavejs');
-  const createAnalyser = require('web-audio-analyser');
 
   module.exports = {
     name: 'graphics',
@@ -83,6 +84,9 @@ var __vueify_style__ = __vueify_insert__.insert("\n#graphics {\n  position: abso
 				autostart: true
       });
 
+      let waves = new Float32Array(1);
+      let timerId = null;
+
       video.onloadeddata = () => {
         let context = new AudioContext();
         let mediaSourceNode = context.createMediaElementSource(video);
@@ -90,8 +94,8 @@ var __vueify_style__ = __vueify_insert__.insert("\n#graphics {\n  position: abso
         mediaSourceNode.connect(analyserNode);
         analyserNode.connect(context.destination);
 
-        let waves = new Float32Array(1);
-        setInterval(() => {
+        timerId && clearInterval(timerId);
+        timerId = setInterval(() => {
           analyserNode.getFloatTimeDomainData(waves);
           this.calcAmplitude(waves);
         }, 500);

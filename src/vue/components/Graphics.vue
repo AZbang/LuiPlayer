@@ -4,7 +4,6 @@
 
 <script>
   const siriWave = require('siriwavejs');
-  const createAnalyser = require('web-audio-analyser');
 
   module.exports = {
     name: 'graphics',
@@ -29,6 +28,9 @@
 				autostart: true
       });
 
+      let waves = new Float32Array(1);
+      let timerId = null;
+
       video.onloadeddata = () => {
         let context = new AudioContext();
         let mediaSourceNode = context.createMediaElementSource(video);
@@ -36,8 +38,8 @@
         mediaSourceNode.connect(analyserNode);
         analyserNode.connect(context.destination);
 
-        let waves = new Float32Array(1);
-        setInterval(() => {
+        timerId && clearInterval(timerId);
+        timerId = setInterval(() => {
           analyserNode.getFloatTimeDomainData(waves);
           this.calcAmplitude(waves);
         }, 500);
