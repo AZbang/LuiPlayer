@@ -8,7 +8,7 @@
     "build:all": "npm run build:macos && npm run build:linux && npm run build:windows && gulp build",
     "build:macos": "electron-packager . --overwrite --asar --out=dist --ignore='^/dist$' --platform=darwin --arch=x64 --app-bundle-id=com.azbang.sinfonia && cd dist/Keep-darwin-x64 && zip -ryXq9 ../Keep-macos-${npm_package_version}.zip Keep.app",
     "build:linux": "electron-packager . --overwrite --out=dist --ignore='^/dist$' --platform=linux --arch=x64 --app-bundle-id=com.azbang.sinfonia && cd dist/Keep-linux-x64 && zip -ryq9 ../Keep-linux-${npm_package_version}.zip *",
-    "build:windows": "electron-packager . Lui --overwrite --prune --out=dist --ignore='^/dist$'"
+    "build:windows": "electron-packager . Lui --overwrite --asar --prune --out=dist --ignore='^/dist$'"
   },
   "devDependencies": {
     "electron": "^1.4.4",

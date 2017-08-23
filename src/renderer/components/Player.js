@@ -184,7 +184,7 @@ module.exports = {
       });
     },
     setVideo(id, cb) {
-      this.track = youtubedl('http://www.youtube.com/watch?v=' + id, ['--format=18'], {cwd: __dirname});
+      this.track = youtubedl('http://www.youtube.com/watch?v=' + id, [], {cwd: __dirname});
       this.track.on('info', (info) => {
         this.trackInfo = info;
         this.searchText = info.title;
