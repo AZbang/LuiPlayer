@@ -152,6 +152,37 @@ var __vueify_style__ = __vueify_insert__.insert("\n#player {\n  position: absolu
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const YTsearch = require('youtube-search');
 const youtubedl = require('youtube-dl');
 const fs = require('fs');
@@ -178,10 +209,11 @@ module.exports = {
       },
       searchText: '',
       srcVideo: '',
+      currentTrack: 0,
       isLoading: false,
       isMainScreeShow: true,
       savePath: '../saved',
-      player: null
+      history: []
     }
   },
   methods: {
@@ -193,23 +225,47 @@ module.exports = {
 
       YTsearch(req, this.youtubeSearch, (err, results) => {
         if(err) throw err;
-        this.setVideo(results[0].id);
+        for(let i = 0; i < results.length; i++) {
+          if(results[i].kind === 'youtube#video') {
+            this.setTrackFromId(results[i].id);
+            return;
+          }
+        }
       });
     },
-    setVideo(id) {
+    setTrackFromId(id) {
       this.track = youtubedl('http://www.youtube.com/watch?v=' + id, ['--format=18'], {cwd: __dirname});
       this.track.on('info', (info) => {
-        this.trackInfo = info;
+        this.isLoading = false;
+
         this.searchText = info.title;
         this.srcVideo = info.url;
-        this.isLoading = false;
+        this.trackInfo = info;
+
+        this.currentTrack = this.history.length;
+        this.history.push(info);
       });
+    },
+    setTrackFromObject(obj) {
+      this.trackInfo = obj;
+      this.searchText = obj.title;
+      this.srcVideo = obj.url;
     },
     downloadTrack() {
       mkdirp(this.savePath, (err) => {
         if(err) throw err;
         this.track.pipe(fs.createWriteStream(this.savePath + '/' + this.trackInfo.title + '.mp4'));
       });
+    },
+    backHistory() {
+      console.log(this.currentTrack, this.history);
+      if(this.currentTrack <= 0) return;
+      this.setTrackFromObject(this.history[this.currentTrack--]);
+    },
+    nextHistory() {
+      console.log(this.currentTrack, this.history);
+      if(this.currentTrack >= this.history.length-1) return;
+      this.setTrackFromObject(this.history[this.currentTrack++]);
     }
   },
   mounted() {
@@ -219,7 +275,7 @@ module.exports = {
 }
 
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n  <div id=\"player\" class=\"app-drag\">\n    <video v-bind:src=\"srcVideo\" autoplay></video>\n  </div>\n\n  <transition name=\"hide\">\n    <main-screen v-show=\"isMainScreeShow\" class=\"app-drag\"></main-screen>\n  </transition>\n\n  <search @searchTrack=\"searchTrack\" :queryTrack=\"searchText\" class=\"no-app-drag\"></search>\n\n  <transition name=\"hide\">\n    <graphics v-show=\"!isLoading\"></graphics>\n  </transition>\n\n  <controls v-show=\"!isMainScreeShow\" @downloadTrack=\"downloadTrack\" class=\"no-app-drag\"></controls>\n\n  <transition name=\"hide\">\n    <div v-show=\"isLoading\" class=\"loader-wrap\">\n      <div class=\"signal\"></div>\n    </div>\n  </transition>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n  <div id=\"player\" class=\"app-drag\">\n    <video v-bind:src=\"srcVideo\" autoplay></video>\n  </div>\n\n  <transition name=\"hide\">\n    <main-screen v-show=\"isMainScreeShow\" class=\"app-drag\"></main-screen>\n  </transition>\n\n  <search @searchTrack=\"searchTrack\" :queryTrack=\"searchText\" class=\"no-app-drag\"></search>\n\n  <transition name=\"hide\">\n    <graphics v-show=\"!isLoading\"></graphics>\n  </transition>\n\n  <controls\n    v-show=\"!isMainScreeShow\"\n    @downloadTrack=\"downloadTrack\"\n    @backHistory=\"backHistory\"\n    @nextHistory=\"nextHistory\"\n    class=\"no-app-drag\"\n  ></controls>\n\n  <transition name=\"hide\">\n    <div v-show=\"isLoading\" class=\"loader-wrap\">\n      <div class=\"signal\"></div>\n    </div>\n  </transition>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

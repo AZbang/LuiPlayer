@@ -14,7 +14,13 @@
       <graphics v-show="!isLoading"></graphics>
     </transition>
 
-    <controls v-show="!isMainScreeShow" @downloadTrack="downloadTrack" class="no-app-drag"></controls>
+    <controls
+      v-show="!isMainScreeShow"
+      @downloadTrack="downloadTrack"
+      @backHistory="backHistory"
+      @nextHistory="nextHistory"
+      class="no-app-drag"
+    ></controls>
 
     <transition name="hide">
       <div v-show="isLoading" class="loader-wrap">
@@ -51,10 +57,11 @@
         },
         searchText: '',
         srcVideo: '',
+        currentTrack: 0,
         isLoading: false,
         isMainScreeShow: true,
         savePath: '../saved',
-        player: null
+        history: []
       }
     },
     methods: {
@@ -66,23 +73,47 @@
 
         YTsearch(req, this.youtubeSearch, (err, results) => {
           if(err) throw err;
-          this.setVideo(results[0].id);
+          for(let i = 0; i < results.length; i++) {
+            if(results[i].kind === 'youtube#video') {
+              this.setTrackFromId(results[i].id);
+              return;
+            }
+          }
         });
       },
-      setVideo(id) {
+      setTrackFromId(id) {
         this.track = youtubedl('http://www.youtube.com/watch?v=' + id, ['--format=18'], {cwd: __dirname});
         this.track.on('info', (info) => {
-          this.trackInfo = info;
+          this.isLoading = false;
+
           this.searchText = info.title;
           this.srcVideo = info.url;
-          this.isLoading = false;
+          this.trackInfo = info;
+
+          this.currentTrack = this.history.length;
+          this.history.push(info);
         });
+      },
+      setTrackFromObject(obj) {
+        this.trackInfo = obj;
+        this.searchText = obj.title;
+        this.srcVideo = obj.url;
       },
       downloadTrack() {
         mkdirp(this.savePath, (err) => {
           if(err) throw err;
           this.track.pipe(fs.createWriteStream(this.savePath + '/' + this.trackInfo.title + '.mp4'));
         });
+      },
+      backHistory() {
+        console.log(this.currentTrack, this.history);
+        if(this.currentTrack <= 0) return;
+        this.setTrackFromObject(this.history[this.currentTrack--]);
+      },
+      nextHistory() {
+        console.log(this.currentTrack, this.history);
+        if(this.currentTrack >= this.history.length-1) return;
+        this.setTrackFromObject(this.history[this.currentTrack++]);
       }
     },
     mounted() {

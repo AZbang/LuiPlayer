@@ -9,9 +9,11 @@
     name: 'graphics',
     methods: {
       calcAmplitude(waves) {
-        if(waves[0] < -Infinity || waves[0] > Infinity) return;
-
-        this.siriWave.amplitude = waves[0]*3 < 0 ? .3 : waves[0]*3;
+        if(waves[0] < -Infinity || waves[0] > Infinity) this.siriWave.amplitude = 0;
+        else {
+          this.siriWave.setAmplitude(waves[0]/200);
+          this.siriWave.frequency = waves[0]/100;
+        }
       }
     },
     mounted() {
@@ -28,22 +30,17 @@
 				autostart: true
       });
 
-      let waves = new Float32Array(1);
-      let timerId = null;
+      let waves = new Uint8Array(1);
+      let context = new AudioContext();
+      let mediaSourceNode = context.createMediaElementSource(video);
+      let analyserNode = context.createAnalyser();
+      mediaSourceNode.connect(analyserNode);
+      analyserNode.connect(context.destination);
 
-      video.onloadeddata = () => {
-        let context = new AudioContext();
-        let mediaSourceNode = context.createMediaElementSource(video);
-        let analyserNode = context.createAnalyser();
-        mediaSourceNode.connect(analyserNode);
-        analyserNode.connect(context.destination);
-
-        timerId && clearInterval(timerId);
-        timerId = setInterval(() => {
-          analyserNode.getFloatTimeDomainData(waves);
-          this.calcAmplitude(waves);
-        }, 500);
-      }
+      setInterval(() => {
+        analyserNode.getByteFrequencyData(waves);
+        this.calcAmplitude(waves);
+      }, 500);
     }
   }
 </script>

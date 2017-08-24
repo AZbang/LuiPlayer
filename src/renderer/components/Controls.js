@@ -246,6 +246,12 @@ var __vueify_style__ = __vueify_insert__.insert("\n#controls {\n  position: abso
 
 
 
+
+
+
+
+
+
 const rangeSlider = require('rangeslider-pure');
 
 module.exports = {
@@ -309,6 +315,12 @@ module.exports = {
     downloadTrack() {
       this.$emit('downloadTrack');
     },
+    backHistory() {
+      this.$emit('backHistory');
+    },
+    nextHistory() {
+      this.$emit('nextHistory');
+    },
     restartTrack() {
       this.isRestartTrackBtnShow = false;
       this.setTrackTime(0);
@@ -358,7 +370,7 @@ module.exports = {
 }
 
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"controls\">\n  <transition name=\"fade\">\n    <div class=\"time-stamp\" v-show=\"isTimestampShow\">{{currentTrackTime | formatTime}} / {{totalTrackTime | formatTime}}</div>\n  </transition>\n\n  <transition name=\"fade\">\n    <div class=\"volume-wrap no-app-drag\" v-show=\"isVolumesliderShow\">\n      <input name=\"volumeslider\" type=\"range\">\n    </div>\n  </transition>\n\n  <input name=\"timeslider\" type=\"range\">\n  <div class=\"controls-bar\">\n    <div class=\"row middle-xs\">\n      <div class=\"col-xs-3\">\n        <div class=\"box button\"><i class=\"material-icons\" @click=\"downloadTrack\">file_download</i></div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\"><i class=\"material-icons\">skip_previous</i></div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\">\n          <i class=\"material-icons\" @click=\"clickBtnPlay\">{{getIconBtnPlay}}</i>\n        </div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\"><i class=\"material-icons\">skip_next</i></div>\n      </div>\n      <div class=\"col-xs-3\">\n        <div class=\"box button\">\n          <i class=\"material-icons\" @click=\"clickBtnSound\">volume_up</i>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"controls\">\n  <transition name=\"fade\">\n    <div class=\"time-stamp\" v-show=\"isTimestampShow\">{{currentTrackTime | formatTime}} / {{totalTrackTime | formatTime}}</div>\n  </transition>\n\n  <transition name=\"fade\">\n    <div class=\"volume-wrap no-app-drag\" v-show=\"isVolumesliderShow\">\n      <input name=\"volumeslider\" type=\"range\">\n    </div>\n  </transition>\n\n  <input name=\"timeslider\" type=\"range\">\n  <div class=\"controls-bar\">\n    <div class=\"row middle-xs\">\n      <div class=\"col-xs-3\">\n        <div class=\"box button\"><i class=\"material-icons\" @click=\"downloadTrack\">file_download</i></div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\"><i class=\"material-icons\" @click=\"backHistory\">skip_previous</i></div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\">\n          <i class=\"material-icons\" @click=\"clickBtnPlay\">{{getIconBtnPlay}}</i>\n        </div>\n      </div>\n      <div class=\"col-xs-2\">\n        <div class=\"box button\"><i class=\"material-icons\" @click=\"nextHistory\">skip_next</i></div>\n      </div>\n      <div class=\"col-xs-3\">\n        <div class=\"box button\">\n          <i class=\"material-icons\" @click=\"clickBtnSound\">volume_up</i>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

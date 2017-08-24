@@ -19,7 +19,7 @@
           <div class="box button"><i class="material-icons" @click="downloadTrack">file_download</i></div>
         </div>
         <div class="col-xs-2">
-          <div class="box button"><i class="material-icons">skip_previous</i></div>
+          <div class="box button"><i class="material-icons" @click="backHistory">skip_previous</i></div>
         </div>
         <div class="col-xs-2">
           <div class="box button">
@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="col-xs-2">
-          <div class="box button"><i class="material-icons">skip_next</i></div>
+          <div class="box button"><i class="material-icons" @click="nextHistory">skip_next</i></div>
         </div>
         <div class="col-xs-3">
           <div class="box button">
@@ -102,6 +102,12 @@
       },
       downloadTrack() {
         this.$emit('downloadTrack');
+      },
+      backHistory() {
+        this.$emit('backHistory');
+      },
+      nextHistory() {
+        this.$emit('nextHistory');
       },
       restartTrack() {
         this.isRestartTrackBtnShow = false;
