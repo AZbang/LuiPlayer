@@ -1,14 +1,13 @@
 {
   "name": "YTplayer",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "gulp vueify && electron .",
-    "build:all": "npm run build:macos && npm run build:linux && npm run build:windows && gulp build",
-    "build:macos": "electron-packager . --overwrite --asar --out=dist --ignore='^/dist$' --platform=darwin --arch=x64 --app-bundle-id=com.azbang.sinfonia && cd dist/Keep-darwin-x64 && zip -ryXq9 ../Keep-macos-${npm_package_version}.zip Keep.app",
-    "build:linux": "electron-packager . --overwrite --out=dist --ignore='^/dist$' --platform=linux --arch=x64 --app-bundle-id=com.azbang.sinfonia && cd dist/Keep-linux-x64 && zip -ryq9 ../Keep-linux-${npm_package_version}.zip *",
-    "build:windows": "electron-packager . Lui --overwrite --platform=win32 --arch=ia32 --out=dist --ignore='^/dist$'"
+    "build:all": "gulp vueify && npm run build:windows && npm run build:linux",
+    "build:linux": "electron-packager . Lui --overwrite --icon=assets/icon.png  --out=dist --ignore='^/dist$' --platform=linux --arch=x64",
+    "build:windows": "electron-packager . Lui --overwrite --icon=assets/icon.ico --platform=win32 --arch=ia32 --out=dist --ignore='^/dist$'"
   },
   "devDependencies": {
     "gulp": "^3.9.1"
@@ -18,12 +17,12 @@
     "electron": "^1.7.5",
     "electron-packager": "^8.7.2",
     "gulp-vueify": "0.0.3",
+    "home-path": "^1.0.5",
     "mkdirp": "^0.5.1",
     "rangeslider-pure": "^0.4.1",
     "siriwavejs": "^2.0.2",
     "vue": "^2.4.2",
     "youtube-dl": "^1.11.1",
     "youtube-search": "^1.0.10"
-  },
-  "false": {}
+  }
 }

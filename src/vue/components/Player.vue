@@ -3,12 +3,18 @@
     <div id="player" class="app-drag">
       <video v-bind:src="srcVideo" autoplay></video>
     </div>
+
+    <transition name="hide">
+      <main-screen v-show="isMainScreeShow" class="app-drag"></main-screen>
+    </transition>
+
+    <search @searchTrack="searchTrack" :queryTrack="searchText" class="no-app-drag"></search>
+
     <transition name="hide">
       <graphics v-show="!isLoading"></graphics>
     </transition>
 
-    <search @searchTrack="searchTrack" :queryTrack="searchText" class="no-app-drag"></search>
-    <controls @downloadTrack="downloadTrack" :player="player" class="no-app-drag"></controls>
+    <controls v-show="!isMainScreeShow" @downloadTrack="downloadTrack" class="no-app-drag"></controls>
 
     <transition name="hide">
       <div v-show="isLoading" class="loader-wrap">
@@ -27,13 +33,15 @@
   const Controls = require('./Controls');
   const Search = require('./Search');
   const Graphics = require('./Graphics');
+  const MainScreen = require('./MainScreen');
 
   module.exports = {
     name: 'player',
     components: {
       Controls,
       Search,
-      Graphics
+      Graphics,
+      MainScreen
     },
     data() {
       return {
@@ -43,7 +51,8 @@
         },
         searchText: '',
         srcVideo: '',
-        isLoading: true,
+        isLoading: false,
+        isMainScreeShow: true,
         savePath: '../saved',
         player: null
       }
@@ -53,19 +62,20 @@
         if(req === '') return;
 
         this.isLoading = true;
+        this.isMainScreeShow = false;
+
         YTsearch(req, this.youtubeSearch, (err, results) => {
           if(err) throw err;
           this.setVideo(results[0].id);
         });
       },
-      setVideo(id, cb) {
+      setVideo(id) {
         this.track = youtubedl('http://www.youtube.com/watch?v=' + id, ['--format=18'], {cwd: __dirname});
         this.track.on('info', (info) => {
           this.trackInfo = info;
           this.searchText = info.title;
           this.srcVideo = info.url;
           this.isLoading = false;
-          cb && cb();
         });
       },
       downloadTrack() {
@@ -77,9 +87,7 @@
     },
     mounted() {
       this.player = document.querySelector('video');
-      this.setVideo('nbIAxHO5A7M', () => {
-        this.searchText = 'Enter Track Name';
-      });
+      this.searchText = 'Enter Track Name';
     }
   }
 </script>
