@@ -181,8 +181,6 @@ var __vueify_style__ = __vueify_insert__.insert("\n#player {\n  position: absolu
 
 
 
-
-
 const YTsearch = require('youtube-search');
 const youtubedl = require('youtube-dl');
 const fs = require('fs');
@@ -257,13 +255,11 @@ module.exports = {
         this.track.pipe(fs.createWriteStream(this.savePath + '/' + this.trackInfo.title + '.mp4'));
       });
     },
-    backHistory() {
-      console.log(this.currentTrack, this.history);
+    nextHistory() {
       if(this.currentTrack <= 0) return;
       this.setTrackFromObject(this.history[this.currentTrack--]);
     },
-    nextHistory() {
-      console.log(this.currentTrack, this.history);
+    backHistory() {
       if(this.currentTrack >= this.history.length-1) return;
       this.setTrackFromObject(this.history[this.currentTrack++]);
     }

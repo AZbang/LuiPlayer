@@ -1,13 +1,21 @@
 <template lang="html">
   <div id="main-screen">
     <img src="../assets/icon.png" alt="logo">
-    <div>Lui<br>Youtube Music Player</div>
+    <div>Lui<br>Youtube Music Player<br><br><a @click="openInBrowser" href="https://github.com/AZbang" class="no-app-drag">Created by @azbang</a></div>
   </div>
 </template>
 
 <script>
+  const shell = require('electron').shell;
+
   module.exports = {
-    name: 'main-screen'
+    name: 'main-screen',
+    methods: {
+      openInBrowser(e) {
+        e.preventDefault();
+        shell.openExternal(e.target.href);
+      }
+    }
   }
 </script>
 
@@ -54,5 +62,11 @@
     margin-top: 70%;
     font-size: 24px;
     font-family: Roboto Thin;
+  }
+  #main-screen a {
+    text-decoration: none;
+    border-bottom: 1px dashed #fff;
+    font-size: 14px;
+    color: #fff;
   }
 </style>

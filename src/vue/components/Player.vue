@@ -105,13 +105,11 @@
           this.track.pipe(fs.createWriteStream(this.savePath + '/' + this.trackInfo.title + '.mp4'));
         });
       },
-      backHistory() {
-        console.log(this.currentTrack, this.history);
+      nextHistory() {
         if(this.currentTrack <= 0) return;
         this.setTrackFromObject(this.history[this.currentTrack--]);
       },
-      nextHistory() {
-        console.log(this.currentTrack, this.history);
+      backHistory() {
         if(this.currentTrack >= this.history.length-1) return;
         this.setTrackFromObject(this.history[this.currentTrack++]);
       }

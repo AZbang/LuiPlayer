@@ -1,8 +1,8 @@
 {
-  "name": "Lui",
-  "description": "Music Player.",
+  "name": "LuiPlayer",
+  "version": "0.1.0",
+  "description": "Youtube Music Player on Electron+Vue.js",
   "dependencies": {
-    "flexboxgrid": "^6.3.2",
-    "font-awesome": "^4.7.0"
+    "flexboxgrid": "^6.3.2"
   }
 }

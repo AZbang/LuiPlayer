@@ -1,23 +1,22 @@
 {
-  "name": "YTplayer",
+  "name": "LuiPlayer",
   "version": "0.1.0",
-  "description": "",
+  "description": "Youtube Music Player on Electron+Vue.js",
   "main": "index.js",
   "scripts": {
     "dev": "gulp vueify && electron .",
-    "build:all": "gulp vueify && npm run build:windows && npm run build:linux",
-    "build:linux": "electron-packager . Lui --overwrite --icon=assets/icon.png  --out=dist --ignore='^/dist$' --platform=linux --arch=x64",
-    "build:windows": "electron-packager . Lui --overwrite --icon=assets/icon.ico --platform=win32 --arch=ia32 --out=dist --ignore='^/dist$'"
+    "build:all": "npm run build:windows && npm run build:linux",
+    "build:linux": "electron-packager . Lui --overwrite --prune --icon=assets/icon.png  --out=dist --ignore='^/dist$' --platform=linux --arch=x64",
+    "build:windows": "electron-packager . Lui --overwrite --prune --icon=assets/icon.ico --platform=win32 --arch=ia32 --out=dist --ignore='^/dist$'"
   },
   "devDependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "electron-packager": "^8.7.2"
   },
   "author": "azbang",
   "dependencies": {
     "electron": "^1.7.5",
-    "electron-packager": "^8.7.2",
     "gulp-vueify": "0.0.3",
-    "home-path": "^1.0.5",
     "mkdirp": "^0.5.1",
     "rangeslider-pure": "^0.4.1",
     "siriwavejs": "^2.0.2",

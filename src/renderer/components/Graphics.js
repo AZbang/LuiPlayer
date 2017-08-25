@@ -65,7 +65,7 @@ var __vueify_style__ = __vueify_insert__.insert("\n#graphics {\n  position: abso
         if(waves[0] < -Infinity || waves[0] > Infinity) this.siriWave.amplitude = 0;
         else {
           this.siriWave.setAmplitude(waves[0]/200);
-          this.siriWave.frequency = 1-waves[0]/300;
+          this.siriWave.frequency = waves[0]/100;
         }
       }
     },
