@@ -61,7 +61,7 @@
   #main-screen div {
     margin-top: 70%;
     font-size: 24px;
-    font-family: Roboto Thin;
+    font-family: Roboto;
   }
   #main-screen a {
     text-decoration: none;

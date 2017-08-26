@@ -52,7 +52,6 @@
     box-shadow: 0 0 10px #434b60;
     position: absolute;
     border-radius: 10px;
-    background: url('../assets/screen.png');
     font-family: Roboto;
   }
 

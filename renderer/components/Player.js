@@ -281,8 +281,8 @@ if (module.hot) {(function () {  module.hot.accept()
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-e415dba6", module.exports)
+    hotAPI.createRecord("_v-21b19203", module.exports)
   } else {
-    hotAPI.update("_v-e415dba6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-21b19203", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
